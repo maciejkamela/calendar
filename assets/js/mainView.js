@@ -17,7 +17,7 @@ app.mainView = (function () {
             $calendarContainer: $('.calendar-container'),
             rows: 5,
             columns: 7,
-            dayName: ['pon','wt'],
+            dayName: ['pon','wt','sr', 'czw','pt', 'sob', 'nd'],
             monthName: ['Styczen', 'Luty', 'Marzece', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien','Wrzesien', 'Pazdziernik', 'Listopad','Grudzien']
 
         }

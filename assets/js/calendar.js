@@ -1,6 +1,6 @@
 'use strict';
 var app = app || {};
-app.Calendar = function ($calendarContainer, monthNames, dayName) {
+app.Calendar = function ($calendarContainer, monthNames, dayNames) {
     this.$calendarContainer = $calendarContainer;
     //this.$calendarWrapper = $('<div>').addClass('calendar-wrapper');
     this.$calendarWrapper = $('<section>').addClass('calendar-wrapper');
@@ -8,14 +8,18 @@ app.Calendar = function ($calendarContainer, monthNames, dayName) {
     //this.$calendarWrapper.append(this.$calendarIsotop);
     this.monthName = monthNames;
     this.monthAmount = monthNames.length;
-    this.dayName = dayName;
+    this.dayNames = dayNames;
+    this.daysAmount = dayNames.length;
 };
 
-app.Calendar.prototype.createCalendars = function (row, column, dayName) {
+app.Calendar.prototype.createCalendars = function (row, column) {
 
     for (var i = 0; i < this.monthAmount; i++) {
         var li = $('<div>').addClass('row col-xs-12 col-sm-6 col-md-3 calendar-item');
-        var $table = this.createTable(row, column, this.dayName, this.monthName[i]);
+        for(var j = 0; j < this.daysAmount; j++) {
+            var $table = this.createTable(row, column, this.dayNames[j], this.monthName[i]);
+        }
+        //var $table = this.createTable(row, column, this.dayName, this.monthName[i]);
         li.append($table);
         this.$calendarWrapper.append(li);
     }
@@ -31,12 +35,13 @@ app.Calendar.prototype.createTable = function (numRows, numCols, dayName, monthN
         $calendarHeader = $("<tr>").addClass('pn-calendar-header'),
         $headerMonth = $("<th>").addClass('pn-calendar-header-month').attr('colspan', 7).text(monthName),
         $subHeader = $("<tr>").addClass('pn-calendar-subheader');
+    console.log(dayName, dayName.length, numCols, numRows, monthName);
     var $day = numCols.times(function () {
-        console.log(dayName[0]);
-        //return $("<td/>").addClass('pn-calendar-header-day').text(dayName);
-        for (var i = 0; i < dayName.length; i++) {
-            return $("<td/>").addClass('pn-calendar-header-day').text(dayName[i]);
-        }
+        //console.log(dayName, dayName.length);
+        return $("<td/>").addClass('pn-calendar-header-day').text(dayName);
+        //for (var i = 0; i < dayName.length; i++) {
+        //    return $("<td/>").addClass('pn-calendar-header-day').text(dayName[i]);
+        //}
 
     });
     var row = function () {
