@@ -1,0 +1,30 @@
+ background: rgba(200, 54, 54, 0.5);
+
+http://www.hongkiat.com/blog/css-priority-level/
+
+    addNewPhoto: {
+        value: function () {
+            return browser.wait(world.EC.presenceOf(self.photoWidget))
+                .then(function () {
+                    var path = require('path'),
+                        fileToUpload = 'seer.jpg',
+                        absolutePath = path.resolve(__dirname + '/../../support/photo/', fileToUpload);
+                    return self.photoWidget.sendKeys(absolutePath);
+                });
+        }
+    },
+
+    http://localhost:63342/camelMoviesClient/assets/_images/scareface.jpg
+    http://localhost:63342/camelMoviesClient/assets/_images/avangers.jpg
+
+    git remote set-url origin  https://github.com/maciejkamela/moviesClient.git
+http://rafbm.github.io/howtomakeaslider/
+http://cssdeck.com/labs/image-slider-1
+http://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+
+1. pobrac szerokosc ekranu i dynamicznie ustawiac image-slider width jakos : szerokosc ekranu x ilosc elementów
+img w tablicy
+2. stworzyc dynamicznie tyle 'li' ze zdjeciami ile jest elementów img w tablicy i przypisac im odpowiedni background image i append do ul
+w image-slider
+
+przesuwaj caly slider

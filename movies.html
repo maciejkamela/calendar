@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins:400,600,700,300,500' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Trade+Winds' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bitter:400,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></204300020script>-->
+    <!--<script src="bower_components/bootstrap/dist/css/bootstrap-theme.min.css"></script>-->
+    <link href="assets/_css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <title></title>
+</head>
+<body>
+<!--<button type="button" class = "display-all-movies-btn"> Request data -jquery</button>-->
+<!--<button type="button" onclick="loadDoc()"> Request data-js</button>-->
+<!--<div class="content"></div>-->
+
+<header class="header">
+    <div class="header-panel">
+        <div class="page-title">Camel's <span>Movies</span></div>
+        <nav id="myNavbar" class="navbar navbar-default menu-tabs" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="container tabs-menu-container">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse main-menu-tabs" id="bs-example-navbar-collapse-1">
+                    <ul class="main-navigation nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Movies <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Inbox</a></li>
+                                <li><a href="#">Drafts</a></li>
+                                <li><a href="#">Sent Items</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Articles<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Inbox</a></li>
+                                <li><a href="#">Drafts</a></li>
+                                <li><a href="#">Sent Items</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Trailers<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Inbox</a></li>
+                                <li><a href="#">Drafts</a></li>
+                                <li><a href="#">Sent Items</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Trash</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
+    </div>
+</header>
+<div class="slider"></div>
+<!--<div class="small-slider"></div>-->
+<div class="container recommended-movies">
+    <div class="recommended-movies-title">
+        Today's best choice
+    </div>
+</div>
+<div class="clear"></div>
+<div class="container gallery-container"></div>
+<div class="content"></div>
+<!--<div class="container modal-container">-->
+<!--<h2>Modal Example</h2>-->
+<!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
+<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div class="modal fade" id="myModal" role="dialog">-->
+<!--<div class="modal-dialog">-->
+
+<!--&lt;!&ndash; Modal content&ndash;&gt;-->
+<!--<div class="modal-content">-->
+<!--&lt;!&ndash;<div class="modal-header">&ndash;&gt;-->
+<!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--&lt;!&ndash;<h4 class="modal-title">Modal Header</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="modal-body">&ndash;&gt;-->
+<!--&lt;!&ndash;<p>Some text in the modal.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div class="modal-footer">-->
+<!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+</body>
+<script src="assets/js/apiCalls.js"></script>
+<script src="assets/js/mainView.js"></script>
+<script src="assets/js/recommendedMovies.js"></script>
+<script src="assets/js/gallery.js"></script>
+<!--<script src="assets/js/headerSlider.js"></script>-->
+<script src="assets/js/slider.js"></script>
+<script src="assets/js/init.js"></script>
+</html>

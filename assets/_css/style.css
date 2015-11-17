@@ -1,0 +1,134 @@
+
+body {
+    display: block;
+    margin: 8px;
+}
+.table-container {
+    width: 50%;
+    height: 30%
+}
+.pn-calendar {
+    /*width: 100%;*/
+    height: 100%;
+    border-collapse: collapse;
+}
+
+.pn-calendar-header {
+    background: #323645; /* Old browsers */
+    background: -moz-linear-gradient(top, #323645 0%, #262a37 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #323645), color-stop(100%, #262a37)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #323645 0%, #262a37 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #323645 0%, #262a37 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #323645 0%, #262a37 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #323645 0%, #262a37 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#323645', endColorstr='#262a37', GradientType=0); /* IE6-9 */
+    pointer: cursor;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
+    height: 35px;
+    color: white;
+    text-transform: uppercase;
+
+}
+
+.pn-calendar-subheader {
+    background: #feffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #feffff 0%, #dee6ef 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #feffff), color-stop(100%, #dee6ef)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #feffff 0%, #dee6ef 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #feffff 0%, #dee6ef 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #feffff 0%, #dee6ef 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #feffff 0%, #dee6ef 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#feffff', endColorstr='#dee6ef', GradientType=0); /* IE6-9 */
+    height: 25px;
+    border-left: 1px solid #d8e2e6;
+    border-right: 1px solid #d8e2e6;
+}
+
+table tr td:first-child {
+
+    border-left: 1px solid #d8e2e6;
+}
+
+table tr td:last-child {
+    border-right: 1px solid #d8e2e6;
+}
+
+/* top-left border-radius */
+table tr:first-child th:first-child {
+    border-top-left-radius: 3px;
+}
+
+/* top-right border-radius */
+table tr:first-child th:last-child {
+    border-top-right-radius: 3px;
+}
+
+/* bottom-left border-radius */
+table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 3px;
+}
+
+table tbody tr:last-child td {
+    border-bottom: 1px solid #d8e2e6;
+}
+
+/* bottom-left border-radius */
+table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 3px;
+}
+
+.pn-calendar-header th, .pn-calendar-subheader td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.pn-calendar-subheader td {
+    width: 14%;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #363636;
+    font-weight: bold;
+}
+
+.pn-calendar-day-new, .pn-calendar-day-old {
+    color: gray;
+    height: 14%;
+    font-size: 11px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pn-calendar-day {
+    height: 14%;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
+.pn-calendar-day-current {
+    background: #d8e2e6; /* Old browsers */
+
+}
+
+.pn-calendar-selected {
+    background: #d1133a; /* Old browsers */
+    background: -moz-linear-gradient(top, #d1133a 0%, #e71743 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d1133a), color-stop(100%, #e71743)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #d1133a 0%, #e71743 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #d1133a 0%, #e71743 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #d1133a 0%, #e71743 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #d1133a 0%, #e71743 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1133a', endColorstr='#e71743', GradientType=0); /* IE6-9 */
+
+    color: white;
+}
+
+.calendar-item {
+    margin: 15px;
+}
+.calendar-wrapper {
+    width: 100%;
+
+}
