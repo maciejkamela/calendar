@@ -1,6 +1,6 @@
 'use strict';
 var app = app || {};
-app.Calendar = function ($calendarContainer, monthNames, dayNames) {
+app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
     this.$calendarContainer = $calendarContainer;
     this.$calendarWrapper = $('<section>').addClass('calendar-wrapper');
     this.$calendarContainer.append(this.$calendarWrapper);
@@ -10,7 +10,8 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames) {
     this.DAYS = 7;
     this.MONTHS = 12;
     this.ROWS = 5;
-    this.currentYear = new Date().getFullYear();
+    this.counter = counter;
+    this.currentYear = new Date().getFullYear() + this.counter;
 
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
@@ -76,11 +77,17 @@ app.Calendar.prototype.firstDayInMonth = function (monthIndex) {
 app.Calendar.prototype.createDays = function ($container, monthIndex) {
     var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear);
     for (var i = 0; i < this.DAYS; i++) {
-        var $cell = $('<td/>').addClass('pn-calendar-day ');
-        for (var k = 0; k < daysInMonth; k++) {
-            $cell.text(k + 1);
-        }
+        var $cell = $('<td/>').addClass('pn-calendar-day').text(i + 1);
         $container.append($cell);
+    }
+};
+
+app.Calendar.prototype.addText = function (monthIndex) {
+    var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear);
+    for(var i = 0; i < monthIndex; i++){
+        for(var j = 0 ; j < daysInMonth; j++) {
+            $('.pn-calendar-day').text(j);
+        }
     }
 
 };
@@ -98,4 +105,23 @@ app.Calendar.prototype.createTable = function (monthIndex) {
     this.appendDays($table, monthIndex);
 
     return $table;
+};
+
+app.Calendar.prototype.createArrows = function () {
+    var arrowContainer = $('<div>').addClass('calendar-nav-arrow'),
+        self = this,
+        leftArrow = $('<div>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
+        rightArrow = $('<div>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
+    this.$calendarContainer.append(arrowContainer);
+
+    arrowContainer.append(leftArrow, rightArrow);
+    leftArrow.on('click', function () {
+
+        self.counter++;
+        console.log(self.currentYear, self.counter);
+    });
+    rightArrow.on('click', function () {
+        self.counter--;
+        console.log(self.currentYear, self.counter);
+    });
 };

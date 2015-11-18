@@ -124,9 +124,30 @@ table tbody tr:last-child td:last-child {
 
     color: white;
 }
-
+.calendar-container {
+    margin-top: 50px;
+}
 .calendar-item {
     margin-bottom: 15px;
     width: 300px;
     height: 150px;
 }
+
+.calendar-nav-arrow {
+    color: rgba(234, 231, 231, 0.4);
+    font-size: 30px;
+    display: inline;
+    position: relative;
+}
+
+/*.calendar-nav-left-arrow {*/
+    /*float: left;*/
+    /*margin-left: 100px;*/
+    /*margin-top: -250px;*/
+/*}*/
+
+/*.calendar-nav-right-arrow {*/
+    /*float: right;*/
+    /*margin-right: 20px;*/
+    /*margin-top: -250px;*/
+/*}*/
