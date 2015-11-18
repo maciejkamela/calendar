@@ -1,3 +1,6 @@
+/**
+ * Created by camel on 2015-11-18.
+ */
 'use strict';
 var app = app || {};
 app.Calendar = function ($calendarContainer, monthNames, dayNames) {
@@ -16,7 +19,7 @@ app.Calendar.prototype.createCalendars = function (row, column) {
 
     for (var i = 0; i < this.monthAmount; i++) {
         var li = $('<div>').addClass('row col-xs-12 col-sm-6 col-md-3 calendar-item');
-             var $table = this.createTable(row, column, this.dayNames, this.monthName[i]);
+        var $table = this.createTable(row, column, this.dayNames, this.monthName[i]);
         //var $table = this.createTable(row, column, this.dayName, this.monthName[i]);
         li.append($table);
         this.$calendarWrapper.append(li);
