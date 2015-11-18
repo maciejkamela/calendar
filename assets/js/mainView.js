@@ -18,7 +18,7 @@ app.mainView = (function () {
             rows: 5,
             columns: 7,
             dayName: ['pon','wt','sr', 'czw','pt', 'sob', 'nd'],
-            monthName: ['Styczen', 'Luty', 'Marzece', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien','Wrzesien', 'Pazdziernik', 'Listopad','Grudzien']
+            monthName: ['Styczen', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien','Wrzesien', 'Pazdziernik', 'Listopad','Grudzien']
 
         }
     };
