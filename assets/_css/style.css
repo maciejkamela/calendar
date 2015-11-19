@@ -126,22 +126,15 @@ table tbody tr:last-child td:last-child {
     color: white;
 }
 
-.calendar-container {
-    margin-top: 50px;
-    padding: 10px;
+.clearfix {
+    display: inline-block;
 }
-
 .calendar-item {
     margin-bottom: 15px;
     width: 300px;
     height: 150px;
 }
 
-.calendar-nav-arrow {
-    color: rgba(44, 48, 62, 0.3);
-    font-size: 30px;
-    display: inline;
-}
 .calendar-nav-left-arrow:hover {
     color: rgba(44, 48, 62, 1);
 }
@@ -150,13 +143,15 @@ table tbody tr:last-child td:last-child {
 }
 .calendar-nav-left-arrow {
     float: left;
+    color: rgba(44, 48, 62, 0.3);
 }
 
 .calendar-nav-right-arrow {
     float: right;
+    color: rgba(44, 48, 62, 0.3);
 }
 
-.current-year-header-container {
+.calendar-controls {
     color: black;
     font-size: 30px;
     text-align: center;

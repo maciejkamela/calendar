@@ -89,7 +89,6 @@ app.Calendar.prototype.createDays = function ($container, monthIndex, firstDay, 
             $cell = $('<td/>').addClass('pn-calendar-day').html('&nbsp;');
         } else {
             if (this.dayInit <= daysInMonth) {
-                //$cell = $('<td/>').addClass('pn-calendar-day').text(this.dayInit++);
                 if (this.currentYear === currentDate.currentYear && monthIndex === currentDate.currentMonth && this.dayInit === currentDate.currentDay) {
                     $cell = $('<td/>').addClass('pn-calendar-day current-date').text(this.dayInit++);
                 } else {
@@ -120,13 +119,10 @@ app.Calendar.prototype.createTable = function (monthIndex) {
 };
 
 app.Calendar.prototype.createArrows = function ($container) {
-    var arrowContainer = $('<ul>').addClass('calendar-nav-arrow'),
-        self = this,
-        leftArrow = $('<li>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
-        rightArrow = $('<li>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
-        arrowContainer.append(leftArrow, rightArrow);
-    arrowContainer.append(leftArrow, rightArrow);
-    $container.append(arrowContainer);
+    var self = this,
+        leftArrow = $('<div>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
+        rightArrow = $('<div>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
+    $container.append(leftArrow,rightArrow);
 
     leftArrow.on('click', function () {
         var currentDate = self.getCurrentDate();
@@ -148,8 +144,8 @@ app.Calendar.prototype.createArrows = function ($container) {
 };
 
 app.Calendar.prototype.createCurrentYearHeader = function () {
-    var $calendarHeader = $('<div>').addClass('current-year-header-container col-xs-12 col-sm-6 col-md-12');
-    var currentYear = $('</div><span>').addClass('current-year-header').text(this.currentYear);
+    var $calendarHeader = $('<div>').addClass('calendar-controls col-xs-12 col-sm-6 col-md-12');
+    var currentYear = $('<div>').addClass('current-year-header').text(this.currentYear);
     this.createArrows($calendarHeader);
     $calendarHeader.append(currentYear);
     return $calendarHeader;
@@ -163,13 +159,5 @@ app.Calendar.prototype.getCurrentDate = function () {
         currentYear: currentYear,
         currentMonth: currentMonth,
         currentDay: currentDay
-    }
-};
-
-app.Calendar.prototype.blockLeftArrow = function () {
-  var currentDate = this.getCurrentDate();
-    var year = currentDate.currentYear;
-    if(year === this.currentYear){
-        console.log('I am current, stop me', year, this.currentYear);
     }
 };
