@@ -2,15 +2,14 @@
 var app = app || {};
 app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
     this.$calendarContainer = $calendarContainer;
-    this.$calendarWrapper = $('<section>').addClass('calendar-wrapper');
-    this.$calendarContainer.append(this.$calendarWrapper);
+
     this.monthName = monthNames;
     this.dayNames = dayNames;
-    this.daysAmount = dayNames.length;
     this.DAYS = 7;
     this.MONTHS = 12;
     this.ROWS = 5;
     this.currentYear = new Date().getFullYear();
+    this.dayInit = 1;
 
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
@@ -18,6 +17,9 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
 };
 
 app.Calendar.prototype.createCalendars = function () {
+
+    this.$calendarWrapper = $('<section>').addClass('calendar-wrapper');
+
     for (var i = 0; i < this.MONTHS; i++) {
         var li = $('<div>').addClass('row col-xs-12 col-sm-6 col-md-3 calendar-item');
         var $table = this.createTable(i);
@@ -25,6 +27,9 @@ app.Calendar.prototype.createCalendars = function () {
         li.append($table);
         this.$calendarWrapper.append(li);
     }
+    this.$calendarContainer.append(this.createCurrentYearHeader());
+    this.createArrows();
+    this.$calendarContainer.append(this.$calendarWrapper);
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -55,41 +60,50 @@ app.Calendar.prototype.getSelectedDates = function () {
 app.Calendar.prototype.appendDays = function ($container, monthIndex) {
 
     var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear);
-    console.log((monthIndex + 1) + 'miesiac zaczyna sie od ', this.firstDayInMonth(monthIndex));
 
     for (var i = 0; i < this.ROWS; i++) {
-        var $row = $("<tr/>");
+        var $row = $("<tr/>"),
         //TODO dodaj dni, musisz znalezc index dnia dla 1 dnia kazdego miesiaca, w parametrze ta metoda przyjmuje monthIndex 0 - styczen, 1- luty itd..
-        this.createDays($row, monthIndex);
-        //for (var j = 0; j < this.DAYS; j++) {
-        //    var $cell = $('<td/>').addClass('pn-calendar-day');
-        //    $row.append($cell.text(j));
-        //}
+            firstDay = this.firstDayInMonth(monthIndex);
+        this.createDays($row, monthIndex, firstDay, i);
         $container.append($row);
     }
+    this.dayInit = 1;
 };
 app.Calendar.prototype.firstDayInMonth = function (monthIndex) {
-    var newDate = new Date(this.currentYear, monthIndex, 1);
-    return newDate.getDay();
+    var newDate = new Date(this.currentYear, monthIndex, 1),
+        firstDay = newDate.getDay();
+    if (firstDay === 0) {
+        firstDay = 6;
+    } else {
+        firstDay -= 1;
+    }
+    return firstDay;
 };
 
-app.Calendar.prototype.createDays = function ($container, monthIndex) {
-    var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear);
+app.Calendar.prototype.createDays = function ($container, monthIndex, firstDay, rowIndex) {
+    var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear),
+        $cell = '';
+    var currentDate = this.getCurrentDate();
     for (var i = 0; i < this.DAYS; i++) {
-        var $cell = $('<td/>').addClass('pn-calendar-day').text(i + 1);
+        if (rowIndex === 0 && i < firstDay) {
+            $cell = $('<td/>').addClass('pn-calendar-day').html('&nbsp;');
+        } else {
+            if (this.dayInit <= daysInMonth) {
+                //$cell = $('<td/>').addClass('pn-calendar-day').text(this.dayInit++);
+                if (this.currentYear === currentDate.currentYear && monthIndex === currentDate.currentMonth && this.dayInit === currentDate.currentDay) {
+                    $cell = $('<td/>').addClass('pn-calendar-day current-date').text(this.dayInit++);
+                } else {
+                    $cell = $('<td/>').addClass('pn-calendar-day').text(this.dayInit++);
+                }
+            } else {
+                $cell = $('<td/>').addClass('pn-calendar-day').html('&nbsp;');
+            }
+        }
         $container.append($cell);
     }
 };
 
-app.Calendar.prototype.addText = function (monthIndex) {
-    var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear);
-    for(var i = 0; i < monthIndex; i++){
-        for(var j = 0 ; j < daysInMonth; j++) {
-            $('.pn-calendar-day').text(j);
-        }
-    }
-
-};
 app.Calendar.prototype.createTable = function (monthIndex) {
     var $tableHead = $("<thead>"),
         $calendarHeader = $("<tr>").addClass('pn-calendar-header'),
@@ -107,20 +121,39 @@ app.Calendar.prototype.createTable = function (monthIndex) {
 };
 
 app.Calendar.prototype.createArrows = function () {
-    var arrowContainer = $('<div>').addClass('calendar-nav-arrow'),
+    var arrowContainer = $('<ul>').addClass('calendar-nav-arrow'),
         self = this,
-        leftArrow = $('<div>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
-        rightArrow = $('<div>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
+        leftArrow = $('<li>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
+        rightArrow = $('<li>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
+        arrowContainer.append(leftArrow, rightArrow);
     this.$calendarContainer.append(arrowContainer);
 
     arrowContainer.append(leftArrow, rightArrow);
     leftArrow.on('click', function () {
 
-        self.currentYear++;
-        console.log(self.currentYear);
+        self.currentYear--;
+        self.$calendarContainer.empty();
+        self.createCalendars();
     });
     rightArrow.on('click', function () {
-        self.currentYear--;
-        console.log(self.currentYear);
+        self.currentYear++;
+        self.$calendarContainer.empty();
+        self.createCalendars();
     });
+};
+
+app.Calendar.prototype.createCurrentYearHeader = function () {
+    return $('<div>').addClass('current-year-header-container').text(this.currentYear);
+};
+app.Calendar.prototype.getCurrentDate = function () {
+    var dateContainer = [],
+        currentDate = new Date(),
+        currentYear = currentDate.getFullYear(),
+        currentMonth = currentDate.getMonth(),
+        currentDay = currentDate.getDate();
+    return {
+        currentYear: currentYear,
+        currentMonth: currentMonth,
+        currentDay: currentDay
+    }
 };

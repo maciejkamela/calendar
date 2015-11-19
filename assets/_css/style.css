@@ -3,10 +3,12 @@ body {
     display: block;
     margin: 8px;
 }
+
 .table-container {
     width: 50%;
     height: 30%
 }
+
 .pn-calendar {
     /*width: 100%;*/
     height: 100%;
@@ -106,7 +108,6 @@ table tbody tr:last-child td:last-child {
     cursor: pointer;
 }
 
-
 .pn-calendar-day-current {
     background: #d8e2e6; /* Old browsers */
 
@@ -124,9 +125,11 @@ table tbody tr:last-child td:last-child {
 
     color: white;
 }
+
 .calendar-container {
     margin-top: 50px;
 }
+
 .calendar-item {
     margin-bottom: 15px;
     width: 300px;
@@ -134,20 +137,27 @@ table tbody tr:last-child td:last-child {
 }
 
 .calendar-nav-arrow {
-    color: rgba(234, 231, 231, 0.4);
+    color: rgba(25, 24, 24, 0.5);
     font-size: 30px;
     display: inline;
     position: relative;
+    border: 1px solid green;
 }
 
-/*.calendar-nav-left-arrow {*/
-    /*float: left;*/
-    /*margin-left: 100px;*/
-    /*margin-top: -250px;*/
-/*}*/
+.calendar-nav-left-arrow {
+    float: left;
+}
 
-/*.calendar-nav-right-arrow {*/
-    /*float: right;*/
-    /*margin-right: 20px;*/
-    /*margin-top: -250px;*/
-/*}*/
+.calendar-nav-right-arrow {
+    float: right;
+}
+
+.current-year-header-container {
+    color: black;
+    font-size: 30px;
+    border: 1px solid red;
+    text-align: center;
+}
+.current-date {
+    background: red;
+}

@@ -9,7 +9,6 @@ app.mainView = (function () {
         init: function
             () {
             var calendar = new app.Calendar(this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName, this.calendarSettings.counter);
-            calendar.createArrows();
             calendar.createCalendars(this.calendarSettings.rows, this.calendarSettings.columns
                 ,this.calendarSettings.dayName, this.calendarSettings.counter
             );
