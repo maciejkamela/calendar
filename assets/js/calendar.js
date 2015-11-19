@@ -17,8 +17,8 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
 };
 
 app.Calendar.prototype.createCalendars = function () {
-
-    this.$calendarWrapper = $('<section>').addClass('calendar-wrapper');
+    var $clear = $('<div>').addClass('clear');
+    this.$calendarWrapper = $('<div>').addClass('calendar-wrapper');
 
     for (var i = 0; i < this.MONTHS; i++) {
         var li = $('<div>').addClass('row col-xs-12 col-sm-6 col-md-3 calendar-item');
@@ -27,9 +27,8 @@ app.Calendar.prototype.createCalendars = function () {
         li.append($table);
         this.$calendarWrapper.append(li);
     }
-    this.$calendarContainer.append(this.createCurrentYearHeader());
-    this.createArrows();
-    this.$calendarContainer.append(this.$calendarWrapper);
+    this.$calendarContainer.append(this.createCurrentYearHeader(),$clear, this.$calendarWrapper);
+    //this.createArrows();
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -120,20 +119,26 @@ app.Calendar.prototype.createTable = function (monthIndex) {
     return $table;
 };
 
-app.Calendar.prototype.createArrows = function () {
+app.Calendar.prototype.createArrows = function ($container) {
     var arrowContainer = $('<ul>').addClass('calendar-nav-arrow'),
         self = this,
         leftArrow = $('<li>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
         rightArrow = $('<li>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
         arrowContainer.append(leftArrow, rightArrow);
-    this.$calendarContainer.append(arrowContainer);
-
     arrowContainer.append(leftArrow, rightArrow);
-    leftArrow.on('click', function () {
+    $container.append(arrowContainer);
 
+    leftArrow.on('click', function () {
+        var currentDate = self.getCurrentDate();
+        var year = currentDate.currentYear;
+        if(year === self.currentYear){
+            console.log('I am current, stop me', year, self.currentYear, this);
+            $(this).attr('title', 'Cannot chose past year');
+        } else {
         self.currentYear--;
         self.$calendarContainer.empty();
         self.createCalendars();
+        }
     });
     rightArrow.on('click', function () {
         self.currentYear++;
@@ -143,11 +148,14 @@ app.Calendar.prototype.createArrows = function () {
 };
 
 app.Calendar.prototype.createCurrentYearHeader = function () {
-    return $('<div>').addClass('current-year-header-container').text(this.currentYear);
+    var $calendarHeader = $('<div>').addClass('current-year-header-container col-xs-12 col-sm-6 col-md-12');
+    var currentYear = $('</div><span>').addClass('current-year-header').text(this.currentYear);
+    this.createArrows($calendarHeader);
+    $calendarHeader.append(currentYear);
+    return $calendarHeader;
 };
 app.Calendar.prototype.getCurrentDate = function () {
-    var dateContainer = [],
-        currentDate = new Date(),
+    var currentDate = new Date(),
         currentYear = currentDate.getFullYear(),
         currentMonth = currentDate.getMonth(),
         currentDay = currentDate.getDate();
@@ -155,5 +163,13 @@ app.Calendar.prototype.getCurrentDate = function () {
         currentYear: currentYear,
         currentMonth: currentMonth,
         currentDay: currentDay
+    }
+};
+
+app.Calendar.prototype.blockLeftArrow = function () {
+  var currentDate = this.getCurrentDate();
+    var year = currentDate.currentYear;
+    if(year === this.currentYear){
+        console.log('I am current, stop me', year, this.currentYear);
     }
 };
