@@ -10,8 +10,7 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
     this.DAYS = 7;
     this.MONTHS = 12;
     this.ROWS = 5;
-    this.counter = counter;
-    this.currentYear = new Date().getFullYear() + this.counter;
+    this.currentYear = new Date().getFullYear();
 
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
@@ -117,11 +116,11 @@ app.Calendar.prototype.createArrows = function () {
     arrowContainer.append(leftArrow, rightArrow);
     leftArrow.on('click', function () {
 
-        self.counter++;
-        console.log(self.currentYear, self.counter);
+        self.currentYear++;
+        console.log(self.currentYear);
     });
     rightArrow.on('click', function () {
-        self.counter--;
-        console.log(self.currentYear, self.counter);
+        self.currentYear--;
+        console.log(self.currentYear);
     });
 };
