@@ -178,3 +178,7 @@ table tbody tr:last-child td:last-child {
 .clear{
     clear: both;
 }
+.past-date {
+    background: #d8e2e6;
+    opacity: 0.2;
+}
