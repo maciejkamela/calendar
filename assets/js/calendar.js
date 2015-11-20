@@ -123,10 +123,13 @@ app.Calendar.prototype.createArrows = function ($container) {
         leftArrow = $('<div>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
         rightArrow = $('<div>').addClass('glyphicon glyphicon-chevron-right calendar-nav-right-arrow');
     $container.append(leftArrow,rightArrow);
+    var currentDate = self.getCurrentDate();
+    var year = currentDate.currentYear;
+    if (year === self.currentYear) {
+        leftArrow.addClass('blocked-arrow');
+    }
 
     leftArrow.on('click', function () {
-        var currentDate = self.getCurrentDate();
-        var year = currentDate.currentYear;
         if(year === self.currentYear){
             console.log('I am current, stop me', year, self.currentYear, this);
             $(this).attr('title', 'Cannot chose past year');

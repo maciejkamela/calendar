@@ -136,19 +136,28 @@ table tbody tr:last-child td:last-child {
 }
 
 .calendar-nav-left-arrow:hover {
-    color: rgba(44, 48, 62, 1);
+    opacity: 1;
 }
 .calendar-nav-right-arrow:hover {
-    color: rgba(44, 48, 62, 1);
+    opacity:1;
+}
+.blocked-arrow:hover {
+    opacity: 0.3;
+}
+
+.blocked-arrow {
+    display: none;
 }
 .calendar-nav-left-arrow {
     float: left;
-    color: rgba(44, 48, 62, 0.3);
+    color: #2C303E;
+    opacity: 0.3;
 }
 
 .calendar-nav-right-arrow {
     float: right;
-    color: rgba(44, 48, 62, 0.3);
+    color: #2C303E;
+    opacity: 0.3;
 }
 
 .calendar-controls {
