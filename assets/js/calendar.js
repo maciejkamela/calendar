@@ -18,10 +18,10 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
 
 app.Calendar.prototype.createCalendars = function () {
     var $clear = $('<div>').addClass('clear');
-    this.$calendarWrapper = $('<div>').addClass('calendar-wrapper');
+    this.$calendarWrapper = $('<div>').addClass('calendar-wrapper row');
 
     for (var i = 0; i < this.MONTHS; i++) {
-        var li = $('<div>').addClass('row col-xs-12 col-sm-6 col-md-3 calendar-item');
+        var li = $('<div>').addClass('col-xs-12 col-sm-6 col-md-3 calendar-item');
         var $table = this.createTable(i);
         //var $table = this.createTable(row, column, this.dayNames, this.monthName[i]);
         li.append($table);
@@ -147,7 +147,7 @@ app.Calendar.prototype.createArrows = function ($container) {
 };
 
 app.Calendar.prototype.createCurrentYearHeader = function () {
-    var $calendarHeader = $('<div>').addClass('calendar-controls col-xs-12 col-sm-6 col-md-12');
+    var $calendarHeader = $('<div>').addClass('calendar-controls');
     var currentYear = $('<div>').addClass('current-year-header').text(this.currentYear);
     this.createArrows($calendarHeader);
     $calendarHeader.append(currentYear);

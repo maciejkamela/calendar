@@ -10,7 +10,7 @@ body {
 }
 
 .pn-calendar {
-    /*width: 100%;*/
+    width: 100%;
     height: 100%;
     border-collapse: collapse;
 }
@@ -131,8 +131,6 @@ table tbody tr:last-child td:last-child {
 }
 .calendar-item {
     margin-bottom: 15px;
-    width: 300px;
-    height: 150px;
 }
 
 .calendar-nav-left-arrow:hover {
@@ -165,12 +163,13 @@ table tbody tr:last-child td:last-child {
     font-size: 30px;
     text-align: center;
     position: relative;
-    width: 85%;
     margin: 0 auto;
 }
 .current-year-header {
     color: rgba(44, 48, 62, 1);
     font-size: 30px;
+    height: 42px;
+    line-height: 34px;
 }
 .current-date {
     background: #d8e2e6;
