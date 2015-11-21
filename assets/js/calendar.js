@@ -237,5 +237,5 @@ app.Calendar.prototype.markSelectedDates = function (element) {
 
 app.Calendar.prototype.clearSelectedDates = function (element) {
     var $days = element.find('.pn-calendar-day');
-    $days.removeClass('selected-date');
+    $days.removeClass('pn-calendar-selected');
 };
