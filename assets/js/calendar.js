@@ -91,6 +91,7 @@ app.Calendar.prototype.createDays = function ($container, monthIndex, firstDay, 
             if (this.dayInit <= daysInMonth) {
                 if (this.currentYear === currentDate.currentYear && monthIndex === currentDate.currentMonth && this.dayInit === currentDate.currentDay) {
                     $cell = $('<td/>').addClass('pn-calendar-day current-date').text(this.dayInit++);
+                    this.setDataDateAttribute($cell, currentDate.currentYear, (currentDate.currentMonth + 1), currentDate.currentDay);
                 } else {
                     $cell = $('<td/>').addClass('pn-calendar-day');
                     this.setDataDateAttribute($cell, this.currentYear, (monthIndex + 1), this.dayInit);
@@ -189,6 +190,7 @@ app.Calendar.prototype.markPastDays = function (element) {
     $days.each(function () {
         if ($(this).attr('data-date')) {
             if ($(this).attr('data-date') < formattedDate) {
+                console.log(formattedDate);
                 $(this).addClass('past-date').attr('disabled', true);
             }
         }
