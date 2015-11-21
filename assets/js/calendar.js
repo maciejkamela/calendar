@@ -199,13 +199,15 @@ app.Calendar.prototype.markPastDays = function (element) {
 
 app.Calendar.prototype.getSelectedDates = function (element) {
     var self = this;
-    element.find('.pn-calendar-day').mousedown(function (e) {
+
+
+  element.find('.pn-calendar-day').on("contextmenu", function(evt) {evt.preventDefault();});
+
+  element.find('.pn-calendar-day').mousedown(function (e) {
         var chosenDay = $(this).attr('data-date');
-        console.log(self.timeDuration.length);
         if (e.which === 3 && self.timeDuration.length < 2) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
-            console.log(self.timeDuration);
             self.markSelectedDates(element);
         }
         else if (e.which === 3 && self.timeDuration.length === 2) {
@@ -213,7 +215,6 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.clearSelectedDates(element);
             self.timeDuration.push(chosenDay);
             self.markSelectedDates(element);
-            console.log('rowne 2', self.timeDuration);
         }
     });
 };
@@ -224,10 +225,10 @@ app.Calendar.prototype.markSelectedDates = function (element) {
         if ($(this).attr('data-date')) {
             $(this).filter(function () {
                 if ($(this).attr('data-date') >= selectedDates[0] && $(this).attr('data-date') <= selectedDates[1]) {
-                    $(this).addClass('selected-date');
+                    $(this).addClass('pn-calendar-selected');
                 }
                 else if ($(this).attr('data-date') === selectedDates[0]) {
-                    $(this).addClass('selected-date');
+                  $(this).addClass('pn-calendar-selected');
                 }
             });
         }

@@ -181,8 +181,5 @@ table tbody tr:last-child td:last-child {
 .past-date {
     background: #d8e2e6;
     opacity: 0.2;
-    pointer-events: none
-}
-.selected-date {
-    background: green;
+    pointer-events: none;
 }
