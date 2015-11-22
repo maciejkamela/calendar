@@ -30,6 +30,7 @@ app.Calendar.prototype.createCalendars = function () {
     this.$calendarContainer.append(this.createCurrentYearHeader(), $clear, $calendarWrapper);
     this.markPastDays($calendarWrapper);
     this.getSelectedDates($calendarWrapper);
+    this.removeSelectedDate($calendarWrapper);
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -210,7 +211,7 @@ app.Calendar.prototype.getSelectedDates = function (element) {
         }
         else if (e.which === 3) {
             self.timeDuration = [];
-            self.clearSelectedDates(element);
+            self.clearAllSelectedDates(element);
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
@@ -234,7 +235,7 @@ app.Calendar.prototype.markSelectedDates = function () {
     });
 };
 
-app.Calendar.prototype.clearSelectedDates = function (element) {
+app.Calendar.prototype.clearAllSelectedDates = function (element) {
     var $days = element.find('.pn-calendar-day');
     $days.removeClass('pn-calendar-selected');
 };
@@ -247,4 +248,14 @@ app.Calendar.prototype.collectSelectedDates = function () {
         self.selectedDates.push($(this).attr('data-date'));
     });
     return self.selectedDates;
+};
+
+
+app.Calendar.prototype.removeSelectedDate = function (element) {
+    element.find('.pn-calendar-day').on('click', function() {
+        if($(this).hasClass('pn-calendar-selected')){
+            $(this).removeClass('pn-calendar-selected')
+        }
+        console.log('aaaaaaaa');
+    })
 };
