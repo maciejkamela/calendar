@@ -123,26 +123,29 @@ app.Calendar.prototype.createArrows = function ($container) {
             console.log('I am current, stop me', year, self.currentYear, this);
             $(this).attr('title', 'Cannot chose past year');
         } else {
-            var refreshedDates = self.collectSelectedDates();
+            var refreshedDates = self.collectSelectedDates(),
+                $wrapper = $('.calendar-wrapper');
             self.currentYear--;
             self.$calendarContainer.empty();
             self.createCalendars();
-            console.log(refreshedDates);
             for (var i = 0; i < refreshedDates.length; i++) {
                 $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
             }
+            self.markSelectedDates();
         }
     });
 
     rightArrow.on('click', function () {
 
-        var refreshedDates = self.collectSelectedDates();
+        var refreshedDates = self.collectSelectedDates(),
+            $wrapper = $('.calendar-wrapper');
         self.currentYear++;
         self.$calendarContainer.empty();
         self.createCalendars();
         for (var i = 0; i < refreshedDates.length; i++) {
             $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
         }
+        self.markSelectedDates();
     });
 };
 
@@ -186,7 +189,6 @@ app.Calendar.prototype.markPastDays = function (element) {
     $days.each(function () {
         if ($(this).attr('data-date')) {
             if ($(this).attr('data-date') < formattedDate) {
-                console.log(formattedDate);
                 $(this).addClass('past-date').attr('disabled', true);
             }
         }
@@ -204,20 +206,20 @@ app.Calendar.prototype.getSelectedDates = function (element) {
         if (e.which === 3 && self.timeDuration.length < 2) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
-            self.markSelectedDates(element);
+            self.markSelectedDates();
         }
         else if (e.which === 3) {
-            //self.timeDuration = [];
-            //self.clearSelectedDates(element);
+            self.timeDuration = [];
+            self.clearSelectedDates(element);
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
-            self.markSelectedDates(element);
+            self.markSelectedDates();
         }
     });
 };
-app.Calendar.prototype.markSelectedDates = function (element) {
+app.Calendar.prototype.markSelectedDates = function () {
     var selectedDates = this.timeDuration;
-    var $days = element.find('.pn-calendar-day');
+    var $days = $('.calendar-wrapper').find('.pn-calendar-day');
     $days.each(function () {
         if ($(this).attr('data-date')) {
             $(this).filter(function () {
@@ -228,7 +230,6 @@ app.Calendar.prototype.markSelectedDates = function (element) {
                     $(this).addClass('pn-calendar-selected');
                 }
             });
-
         }
     });
 };
