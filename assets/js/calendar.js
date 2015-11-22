@@ -11,6 +11,7 @@ app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
     this.currentYear = new Date().getFullYear();
     this.dayInit = 1;
     this.timeDuration = [];
+    this.selectedDates = [];
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
     }
@@ -38,21 +39,6 @@ app.Calendar.prototype.appendDaysHeaders = function ($container) {
         $td.text(this.dayNames[i]);
         $container.append($td);
     }
-};
-
-app.Calendar.prototype.setDates = function () {
-
-    /*
-     TODO metoda ta moze przyjac date lub tablice dat w formacie yyyy-mm-dd i na podstawie tego kalendarz powinien mi zaznaczyc ta date/daty
-     */
-
-};
-
-app.Calendar.prototype.getSelectedDates = function () {
-
-    /**
-     TODO metoda niech zwraca tablice zaznaczonych dat w formacie yyyy-mm-dd
-     */
 };
 
 
@@ -118,7 +104,6 @@ app.Calendar.prototype.createTable = function (monthIndex) {
     $tableHead.append($calendarHeader, $subHeader);
     $table.append($tableHead);
     this.appendDays($table, monthIndex);
-
     return $table;
 };
 
@@ -138,15 +123,26 @@ app.Calendar.prototype.createArrows = function ($container) {
             console.log('I am current, stop me', year, self.currentYear, this);
             $(this).attr('title', 'Cannot chose past year');
         } else {
+            var refreshedDates = self.collectSelectedDates();
             self.currentYear--;
             self.$calendarContainer.empty();
             self.createCalendars();
+            console.log(refreshedDates);
+            for (var i = 0; i < refreshedDates.length; i++) {
+                $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
+            }
         }
     });
+
     rightArrow.on('click', function () {
+
+        var refreshedDates = self.collectSelectedDates();
         self.currentYear++;
         self.$calendarContainer.empty();
         self.createCalendars();
+        for (var i = 0; i < refreshedDates.length; i++) {
+            $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
+        }
     });
 };
 
@@ -199,21 +195,22 @@ app.Calendar.prototype.markPastDays = function (element) {
 
 app.Calendar.prototype.getSelectedDates = function (element) {
     var self = this;
+    element.find('.pn-calendar-day').on("contextmenu", function (evt) {
+        evt.preventDefault();
+    });
 
-
-  element.find('.pn-calendar-day').on("contextmenu", function(evt) {evt.preventDefault();});
-
-  element.find('.pn-calendar-day').mousedown(function (e) {
+    element.find('.pn-calendar-day').mousedown(function (e) {
         var chosenDay = $(this).attr('data-date');
         if (e.which === 3 && self.timeDuration.length < 2) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates(element);
         }
-        else if (e.which === 3 && self.timeDuration.length === 2) {
-            self.timeDuration = [];
-            self.clearSelectedDates(element);
+        else if (e.which === 3) {
+            //self.timeDuration = [];
+            //self.clearSelectedDates(element);
             self.timeDuration.push(chosenDay);
+            self.timeDuration.sort();
             self.markSelectedDates(element);
         }
     });
@@ -228,14 +225,25 @@ app.Calendar.prototype.markSelectedDates = function (element) {
                     $(this).addClass('pn-calendar-selected');
                 }
                 else if ($(this).attr('data-date') === selectedDates[0]) {
-                  $(this).addClass('pn-calendar-selected');
+                    $(this).addClass('pn-calendar-selected');
                 }
             });
+
         }
-    })
+    });
 };
 
 app.Calendar.prototype.clearSelectedDates = function (element) {
     var $days = element.find('.pn-calendar-day');
     $days.removeClass('pn-calendar-selected');
+};
+
+app.Calendar.prototype.collectSelectedDates = function () {
+    var $days = $('.calendar-wrapper').find('.pn-calendar-selected'),
+        self = this;
+    // nie moge tu czyscic tej tablicy
+    $days.each(function () {
+        self.selectedDates.push($(this).attr('data-date'));
+    });
+    return self.selectedDates;
 };
