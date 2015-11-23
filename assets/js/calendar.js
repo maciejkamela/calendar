@@ -33,7 +33,7 @@ app.Calendar.prototype.createCalendars = function () {
     this.getSelectedDates($calendarWrapper);
     //this.removeSelectedDate($calendarWrapper);
     this.pickOneDay($calendarWrapper);
-    this.unselectDate('2015-12-06', '2015-12-10');
+    this.eraseSelectedDates('2015-12-06', '2015-12-10');
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -126,8 +126,7 @@ app.Calendar.prototype.createArrows = function ($container) {
             console.log('I am current, stop me', year, self.currentYear, this);
             $(this).attr('title', 'Cannot chose past year');
         } else {
-            var refreshedDates = self.collectSelectedDates(),
-                $wrapper = $('.calendar-wrapper');
+            var refreshedDates = self.collectSelectedDates();
             self.currentYear--;
             self.$calendarContainer.empty();
             self.createCalendars();
@@ -139,9 +138,7 @@ app.Calendar.prototype.createArrows = function ($container) {
     });
 
     rightArrow.on('click', function () {
-
-        var refreshedDates = self.collectSelectedDates(),
-            $wrapper = $('.calendar-wrapper');
+        var refreshedDates = self.collectSelectedDates();
         self.currentYear++;
         self.$calendarContainer.empty();
         self.createCalendars();
@@ -210,8 +207,6 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
-            console.log('time', self.timeDuration, self.selectedDates);
-            self.onDateSelect(chosenDay);
         }
         else if (e.which === 3) {
             self.timeDuration = [];
@@ -219,8 +214,6 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
-            console.log('time', self.timeDuration, self.selectedDates);
-            self.onDateSelect(chosenDay);
         }
     });
 };
@@ -249,13 +242,23 @@ app.Calendar.prototype.clearAllSelectedDates = function (element) {
 app.Calendar.prototype.collectSelectedDates = function () {
     var $days = $('.calendar-wrapper').find('.pn-calendar-selected'),
         self = this;
-    // nie moge tu czyscic tej tablicy
     $days.each(function () {
         self.selectedDates.push($(this).attr('data-date'));
     });
-    return self.selectedDates;
+    this.selectedDates = this.eliminateDuplicates(this.selectedDates);
+    return this.selectedDates;
 };
 
+app.Calendar.prototype.eliminateDuplicates = function (arr) {
+    var i,
+        itemsAmount = arr.length,
+        uniqueItems = [];
+    for (i = 0; i < itemsAmount; i++) {
+        if (uniqueItems.indexOf(arr[i]) === -1)
+            uniqueItems.push(arr[i]);
+    }
+    return uniqueItems;
+};
 
 //app.Calendar.prototype.removeSelectedDate = function (element) {
 //    element.find('.pn-calendar-day').on('click', function() {
@@ -269,29 +272,36 @@ app.Calendar.prototype.collectSelectedDates = function () {
 app.Calendar.prototype.pickOneDay = function (element) {
     var self = this;
     element.find('.pn-calendar-day').on('click', function () {
-        //$(this).addClass('pn-calendar-selected');
+        $(this).addClass('pn-calendar-selected');
         if (typeof self.onDateSelect === 'function') {
-            console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
+            //console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
             return self.onDateSelect($(this).attr('data-date'));
         }
     })
 };
 
 
-app.Calendar.prototype.unselectDate = function (minDate, maxDate) {
-    var argumentsAmount = arguments.length;
+app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
+    var argumentsAmount = arguments.length,
+        self = this;
     $('.test').on('click', function () {
-        console.log('jjjjjj', arguments, arguments.length, minDate, maxDate);
-        var $wrapper = $('.calendar-wrapper');
-        var $days = $wrapper.find('.pn-calendar-day');
-        var min = $wrapper.find("[data-date ='" + minDate + "']");
-        var max = $wrapper.find("[data-date ='" + maxDate + "']");
-        console.log(min);
+        var $wrapper = $('.calendar-wrapper'),
+            $days = $wrapper.find('.pn-calendar-day'),
+            min = $wrapper.find("[data-date ='" + minDate + "']");
         if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
-            console.log(arguments);
             min.removeClass('pn-calendar-selected')
         } else {
-            console.log($days,'dooopa');
+            $days.each(function () {
+                if ($(this).attr('data-date')) {
+                    $(this).filter(function () {
+                        if ($(this).attr('data-date') >= minDate && $(this).attr('data-date') <= maxDate) {
+                            $(this).removeClass('pn-calendar-selected');
+                        }
+                    });
+                    //self.selectedDates.splice($.inArray($(this).attr('data-date'), self.selectedDates), 1)
+                }
+            })
         }
-    });
+        self.collectSelectedDates();
+    })
 };
