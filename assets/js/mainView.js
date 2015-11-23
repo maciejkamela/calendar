@@ -9,7 +9,7 @@ app.mainView = (function () {
         init: function
             () {
             var calendar = new app.Calendar(function (choseDay) {
-                alert(choseDay)
+                console.log(choseDay)
             },this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName, this.calendarSettings.counter);
             calendar.createCalendars(this.calendarSettings.rows, this.calendarSettings.columns
                 ,this.calendarSettings.dayName, this.calendarSettings.counter

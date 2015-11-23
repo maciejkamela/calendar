@@ -33,6 +33,7 @@ app.Calendar.prototype.createCalendars = function () {
     this.getSelectedDates($calendarWrapper);
     //this.removeSelectedDate($calendarWrapper);
     this.pickOneDay($calendarWrapper);
+    this.unselectDate('2015-12-06', '2015-12-10');
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -218,7 +219,7 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
-            console.log('time',self.timeDuration, self.selectedDates);
+            console.log('time', self.timeDuration, self.selectedDates);
             self.onDateSelect(chosenDay);
         }
     });
@@ -268,10 +269,29 @@ app.Calendar.prototype.collectSelectedDates = function () {
 app.Calendar.prototype.pickOneDay = function (element) {
     var self = this;
     element.find('.pn-calendar-day').on('click', function () {
-            $(this).addClass('pn-calendar-selected');
-        if(typeof self.onDateSelect === 'function') {
-        console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
-        return self.onDateSelect($(this).attr('data-date'));
+        //$(this).addClass('pn-calendar-selected');
+        if (typeof self.onDateSelect === 'function') {
+            console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
+            return self.onDateSelect($(this).attr('data-date'));
         }
     })
+};
+
+
+app.Calendar.prototype.unselectDate = function (minDate, maxDate) {
+    var argumentsAmount = arguments.length;
+    $('.test').on('click', function () {
+        console.log('jjjjjj', arguments, arguments.length, minDate, maxDate);
+        var $wrapper = $('.calendar-wrapper');
+        var $days = $wrapper.find('.pn-calendar-day');
+        var min = $wrapper.find("[data-date ='" + minDate + "']");
+        var max = $wrapper.find("[data-date ='" + maxDate + "']");
+        console.log(min);
+        if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
+            console.log(arguments);
+            min.removeClass('pn-calendar-selected')
+        } else {
+            console.log($days,'dooopa');
+        }
+    });
 };
