@@ -8,7 +8,9 @@ app.mainView = (function () {
     return {
         init: function
             () {
-            var calendar = new app.Calendar(this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName, this.calendarSettings.counter);
+            var calendar = new app.Calendar(function (choseDay) {
+                alert(choseDay)
+            },this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName, this.calendarSettings.counter);
             calendar.createCalendars(this.calendarSettings.rows, this.calendarSettings.columns
                 ,this.calendarSettings.dayName, this.calendarSettings.counter
             );
@@ -19,7 +21,7 @@ app.mainView = (function () {
             rows: 5,
             columns: 7,
             dayName: ['pon','wt','sr', 'czw','pt', 'sob', 'nd'],
-            monthName: ['StyczeÒ', 'Luty', 'Marzec', 'KwiecieÒ', 'Maj', 'Czerwiec', 'Lipiec', 'SierpieÒ','WrzesieÒ', 'Paüdziernik', 'Listopad','GrudzieÒ'],
+            monthName: ['Stycze≈Ñ', 'Luty', 'Marzec', 'Kwiecie≈Ñ', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpie≈Ñ','Wrzesie≈Ñ', 'Pa≈∫dziernik', 'Listopad','Grudzie≈Ñ'],
             counter: 0
 
         }

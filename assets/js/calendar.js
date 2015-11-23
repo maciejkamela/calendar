@@ -1,10 +1,11 @@
 'use strict';
 var app = app || {};
-app.Calendar = function ($calendarContainer, monthNames, dayNames, counter) {
+app.Calendar = function (onDateSelect, $calendarContainer, monthNames, dayNames, counter) {
     this.$calendarContainer = $calendarContainer;
 
     this.monthName = monthNames;
     this.dayNames = dayNames;
+    this.onDateSelect = onDateSelect;
     this.DAYS = 7;
     this.MONTHS = 12;
     this.ROWS = 5;
@@ -30,7 +31,8 @@ app.Calendar.prototype.createCalendars = function () {
     this.$calendarContainer.append(this.createCurrentYearHeader(), $clear, $calendarWrapper);
     this.markPastDays($calendarWrapper);
     this.getSelectedDates($calendarWrapper);
-    this.removeSelectedDate($calendarWrapper);
+    //this.removeSelectedDate($calendarWrapper);
+    this.pickOneDay($calendarWrapper);
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -49,7 +51,6 @@ app.Calendar.prototype.appendDays = function ($container, monthIndex) {
 
     for (var i = 0; i < this.ROWS; i++) {
         var $row = $("<tr/>"),
-        //TODO dodaj dni, musisz znalezc index dnia dla 1 dnia kazdego miesiaca, w parametrze ta metoda przyjmuje monthIndex 0 - styczen, 1- luty itd..
             firstDay = this.firstDayInMonth(monthIndex);
         this.createDays($row, monthIndex, firstDay, i);
         $container.append($row);
@@ -208,13 +209,17 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
+            console.log('time', self.timeDuration, self.selectedDates);
+            self.onDateSelect(chosenDay);
         }
         else if (e.which === 3) {
             self.timeDuration = [];
-            self.clearAllSelectedDates(element);
+            //self.clearAllSelectedDates(element);
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
+            console.log('time',self.timeDuration, self.selectedDates);
+            self.onDateSelect(chosenDay);
         }
     });
 };
@@ -251,11 +256,22 @@ app.Calendar.prototype.collectSelectedDates = function () {
 };
 
 
-app.Calendar.prototype.removeSelectedDate = function (element) {
-    element.find('.pn-calendar-day').on('click', function() {
-        if($(this).hasClass('pn-calendar-selected')){
-            $(this).removeClass('pn-calendar-selected')
+//app.Calendar.prototype.removeSelectedDate = function (element) {
+//    element.find('.pn-calendar-day').on('click', function() {
+//        if($(this).hasClass('pn-calendar-selected')){
+//            $(this).removeClass('pn-calendar-selected')
+//        }
+//        console.log('aaaaaaaa');
+//    })
+//};
+
+app.Calendar.prototype.pickOneDay = function (element) {
+    var self = this;
+    element.find('.pn-calendar-day').on('click', function () {
+            $(this).addClass('pn-calendar-selected');
+        if(typeof self.onDateSelect === 'function') {
+        console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
+        return self.onDateSelect($(this).attr('data-date'));
         }
-        console.log('aaaaaaaa');
     })
 };
