@@ -34,7 +34,7 @@ app.Calendar.prototype.createCalendars = function () {
     this.getSelectedDates($calendarWrapper);
     //this.removeSelectedDate($calendarWrapper);
     this.pickOneDay($calendarWrapper);
-    this.eraseSelectedDates('2015-12-06', '2015-12-10');
+    this.eraseSelectedDates('2015-12-06');
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -203,7 +203,7 @@ app.Calendar.prototype.getSelectedDates = function (element) {
 
     element.find('.pn-calendar-day').mousedown(function (e) {
         var chosenDay = $(this).attr('data-date');
-        if (e.which === 3 && self.timeDuration.length < 2) {
+        if (e.which === 3 && self.timeDuration.length <= 1) {
             self.timeDuration.push(chosenDay);
             self.timeDuration.sort();
             self.markSelectedDates();
@@ -237,7 +237,7 @@ app.Calendar.prototype.markSelectedDates = function () {
 };
 app.Calendar.prototype.addItemToDateSpanCollection = function () {
     var timeDuration = this.timeDuration;
-    this.dateSpanCollection.push({'minDate':timeDuration[0], 'maxDate':timeDuration[1]});
+    this.dateSpanCollection.push({'minDate': timeDuration[0], 'maxDate': timeDuration[1]});
 
 };
 
@@ -295,7 +295,9 @@ app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
             $days = $wrapper.find('.pn-calendar-day'),
             min = $wrapper.find("[data-date ='" + minDate + "']");
         if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
-            min.removeClass('pn-calendar-selected')
+            console.log('data span', self.dateSpanCollection);
+            min.removeClass('pn-calendar-selected');
+            self.isElementInDateSpanCollection(minDate);
         } else {
             $days.each(function () {
                 if ($(this).attr('data-date')) {
@@ -310,4 +312,12 @@ app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
         }
         self.collectSelectedDates();
     })
+};
+
+app.Calendar.prototype.isElementInDateSpanCollection = function (element) {
+    for (var i = 0; i < this.dateSpanCollection.length; i++) {
+        if (element >= this.dateSpanCollection[i].minDate && element <= this.dateSpanCollection[i].maxDate) {
+            console.log(element);
+        }
+    }
 };
