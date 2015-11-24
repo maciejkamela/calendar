@@ -13,6 +13,7 @@ app.Calendar = function (onDateSelect, $calendarContainer, monthNames, dayNames,
     this.dayInit = 1;
     this.timeDuration = [];
     this.selectedDates = [];
+    this.dateSpanCollection = [];
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
     }
@@ -136,7 +137,6 @@ app.Calendar.prototype.createArrows = function ($container) {
             self.markSelectedDates();
         }
     });
-
     rightArrow.on('click', function () {
         var refreshedDates = self.collectSelectedDates();
         self.currentYear++;
@@ -209,6 +209,8 @@ app.Calendar.prototype.getSelectedDates = function (element) {
             self.markSelectedDates();
         }
         else if (e.which === 3) {
+            self.addItemToDateSpanCollection();
+            console.log('duration', self.dateSpanCollection);
             self.timeDuration = [];
             //self.clearAllSelectedDates(element);
             self.timeDuration.push(chosenDay);
@@ -232,6 +234,11 @@ app.Calendar.prototype.markSelectedDates = function () {
             });
         }
     });
+};
+app.Calendar.prototype.addItemToDateSpanCollection = function () {
+    var timeDuration = this.timeDuration;
+    this.dateSpanCollection.push({'minDate':timeDuration[0], 'maxDate':timeDuration[1]});
+
 };
 
 app.Calendar.prototype.clearAllSelectedDates = function (element) {
@@ -279,7 +286,6 @@ app.Calendar.prototype.pickOneDay = function (element) {
         }
     })
 };
-
 
 app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
     var argumentsAmount = arguments.length,
