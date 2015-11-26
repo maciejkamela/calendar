@@ -190,6 +190,7 @@ table tbody tr:last-child td:last-child {
     width: 91px;
     height: 62px;
     font-size: 11px;
+    position: absolute;
     -webkit-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
     -moz-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
     box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
@@ -213,5 +214,4 @@ table tbody tr:last-child td:last-child {
 }
 .data-picker-day ,.data-picker-period{
     margin-right: 5px;
-
 }
