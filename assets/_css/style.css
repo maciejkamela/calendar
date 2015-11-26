@@ -184,17 +184,34 @@ table tbody tr:last-child td:last-child {
     pointer-events: none;
 }
 
-.modal-content {
-    width: 200px;
-    height: 200px;
+.data-picker {
+    display: none;
+    border: 1px solid silver;
+    width: 91px;
+    height: 62px;
+    font-size: 11px;
+    -webkit-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
+    -moz-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
+    box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
+}
+.data-picker-header {
+    border-bottom: 1px solid black;
+}
+.data-picker-option {
+    font-size: 11px;
+    color: #262a37;
+    position: relative;
+    margin-top: 3px;
 }
 
-.modal-content img {
-    width: 100%;
+.data-picker-option:hover{
+    background: rgba(45, 48, 62, 0.4);
+    opacity: 0.5;
+    color: white;
+    cursor: pointer;
+    font-weight: 800;
 }
+.data-picker-day ,.data-picker-period{
+    margin-right: 5px;
 
-.close {
-    margin-top: 15px;
-    margin-right: 15px;
-    font-size: 25px;
 }

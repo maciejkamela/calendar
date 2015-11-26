@@ -323,29 +323,9 @@ app.Calendar.prototype.isElementInDateSpanCollection = function (element) {
     }
 };
 
-
-app.Calendar.prototype.createDataModal = function () {
-    var $modal = $('<div>').addClass('modal fade').attr({id: "myModal", role: "dialog"}),
-        $modalDialog = $('<div>').addClass('modal-dialog modal-sm'),
-        $modalContent = $('<div>').addClass('modal-content'),
-        $modalFooter = $('<div>').addClass('modal-footer'),
-        $closeBtn = $('<button>').addClass('close').attr({'data-dismiss': 'modal'}).text('X');
-    $modalContent.text('Please chose one option');
-    $modalFooter.text('day or duration');
-    $modalContent.append($closeBtn, $modalFooter);
-    $modalDialog.append($modalContent);
-    $modal.append($modalDialog);
-    $('.modal-date').append($modal);
-    return $modal;
-};
-
-
 app.Calendar.prototype.dawajModala = function () {
-    var self = this;
     $('.test').on('click', function () {
-       var modal = self.createDataModal();
-
-        $(this).attr({"data-toggle": "modal", "data-target": "#myModal"});
+       $('.data-picker').fadeToggle('slow');
     });
 };
 
