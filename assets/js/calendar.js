@@ -287,6 +287,9 @@ app.Calendar.prototype.pickDate = function (element) {
                 console.log('duration', self.dateSpanCollection, 'timeDuration', self.timeDuration);
                 self.timeDuration.sort();
                 self.markSelectedDates();
+                if (typeof self.onDateSelect === 'function') {
+                    return self.onDateSelect(self.timeDuration);
+                }
                 self.lastlyChosenDataPickerOption = [];
                 self.timeDuration = [];
             }
