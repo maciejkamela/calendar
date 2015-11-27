@@ -14,6 +14,7 @@ app.Calendar = function (onDateSelect, $calendarContainer, monthNames, dayNames,
     this.timeDuration = [];
     this.selectedDates = [];
     this.dateSpanCollection = [];
+    this.lastlyChosenDataPickerOption = [];
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
     }
@@ -37,6 +38,7 @@ app.Calendar.prototype.createCalendars = function () {
     //this.eraseSelectedDates('2015-12-06');
     this.createDataPicker();
     this.dataPickerDayClick();
+    this.dataPickerPeriodClick();
 };
 
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
@@ -269,52 +271,71 @@ app.Calendar.prototype.eliminateDuplicates = function (arr) {
     return uniqueItems;
 };
 
-//app.Calendar.prototype.pickOneDay = function (element) {
-//    var self = this;
-//    element.find('.pn-calendar-day').on('click', function () {
-//        $(this).addClass('pn-calendar-selected');
-//        if (typeof self.onDateSelect === 'function') {
-//            //console.log(self.timeDuration, self.selectedDates, $(this).attr('data-date'), self.onDateSelect($(this).attr('data-date')));
-//            return self.onDateSelect($(this).attr('data-date'));
-//        }
-//    })
-//};
 
 app.Calendar.prototype.pickDate = function (element) {
     var self = this;
     element.find('.pn-calendar-day').on('click', function () {
-        $('.data-picker').fadeIn('fast');
         console.log($(this).attr('data-date'), $(this));
-        var chosenDate = $(this).attr('data-date');
-        $('.day-option').attr('data-chosen-date',chosenDate);
-        self.dataPickerDayClick(chosenDate);
+        var chosenDay = $(this).attr('data-date');
+        self.timeDuration.push(chosenDay);
+        if (self.lastlyChosenDataPickerOption.length === 0) {
+            $('.data-picker').fadeIn('fast');
+        }
+        else if(self.lastlyChosenDataPickerOption[0] === 'Period') {
+            if (self.timeDuration.length === 2) {
+                self.addItemToDateSpanCollection();
+                console.log('duration', self.dateSpanCollection, 'timeDuration', self.timeDuration);
+                self.timeDuration.sort();
+                self.markSelectedDates();
+                self.lastlyChosenDataPickerOption = [];
+                self.timeDuration = [];
+            }
+        }
+
     })
 };
-app.Calendar.prototype.handler = function (event, message) {
-  var target = $(event.target);
-    if(target.is('i.fa.fa-calendar-check-o.data-picker-day')){
-        console.log(message);
+app.Calendar.prototype.handler = function (event) {
+    var target = $(event.currentTarget);
+    if (target.is('div.data-picker-option.day-option')) {
+        console.log('kliknalem day');
+        this.lastlyChosenDataPickerOption.push('Day');
     }
-    else if(target.is('i.fa.fa-calendar-times-o.data-picker-period')){
-        console.log(message);
+    else if (target.is('div.data-picker-option.period-option')) {
+        console.log('kliknalem period');
+        this.lastlyChosenDataPickerOption.push('Period');
     }
     else {
-        console.log(message);
+        console.log('dooopa');
     }
 };
 
 
 app.Calendar.prototype.dataPickerDayClick = function () {
+    var self = this;
     $('.day-option').on('click', function () {
-        var chosenDate = $(this).attr('data-chosen-date');
-        console.log($(this).attr('data-chosen-date'));
-        $('.calendar-wrapper').find("[data-date ='" + chosenDate + "']").addClass('pn-calendar-selected');
+        var selectedDay = self.timeDuration;
+        $('.calendar-wrapper').find("[data-date ='" + selectedDay + "']").addClass('pn-calendar-selected');
         $('.data-picker').fadeOut('fast');
+        self.timeDuration = [];
+        self.lastlyChosenDataPickerOption = [];
         if (typeof self.onDateSelect === 'function') {
-            return self.onDateSelect(chosenDate);
+            return self.onDateSelect(selectedDay);
         }
     })
 };
+
+
+app.Calendar.prototype.dataPickerPeriodClick = function () {
+    var self = this;
+    $('.period-option').on('click', function () {
+        var selectedDay = self.timeDuration;
+        $('.calendar-wrapper').find("[data-date ='" + selectedDay + "']").addClass('pn-calendar-selected');
+        self.handler(event);
+        console.log('period klikniety', self.timeDuration);
+        $('.data-picker').fadeOut('fast');
+    })
+};
+
 
 app.Calendar.prototype.createDataPicker = function () {
     var $dataPicker = $('<div>').addClass('data-picker'),
@@ -330,45 +351,44 @@ app.Calendar.prototype.createDataPicker = function () {
 };
 
 
-
-app.Calendar.prototype.isElementInDateSpanCollection = function (element) {
-    for (var i = 0; i < this.dateSpanCollection.length; i++) {
-        if (element >= this.dateSpanCollection[i].minDate && element <= this.dateSpanCollection[i].maxDate) {
-            console.log(element);
-        }
-    }
-};
-
-app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
-    var argumentsAmount = arguments.length,
-        self = this;
-    $('.test').on('click', function () {
-        var $wrapper = $('.calendar-wrapper'),
-            $days = $wrapper.find('.pn-calendar-day'),
-            min = $wrapper.find("[data-date ='" + minDate + "']");
-        if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
-            console.log('data span', self.dateSpanCollection);
-            min.removeClass('pn-calendar-selected');
-            self.isElementInDateSpanCollection(minDate);
-        } else {
-            $days.each(function () {
-                if ($(this).attr('data-date')) {
-                    $(this).filter(function () {
-                        if ($(this).attr('data-date') >= minDate && $(this).attr('data-date') <= maxDate) {
-                            $(this).removeClass('pn-calendar-selected');
-                        }
-                    });
-                    //self.selectedDates.splice($.inArray($(this).attr('data-date'), self.selectedDates), 1)
-                }
-            })
-        }
-        self.collectSelectedDates();
-    })
-};
-
-app.Calendar.prototype.dawajModala = function () {
-    $('.test').on('click', function () {
-        $('.data-picker').fadeToggle('fast');
-    });
-};
+//app.Calendar.prototype.isElementInDateSpanCollection = function (element) {
+//    for (var i = 0; i < this.dateSpanCollection.length; i++) {
+//        if (element >= this.dateSpanCollection[i].minDate && element <= this.dateSpanCollection[i].maxDate) {
+//            console.log(element);
+//        }
+//    }
+//};
+//
+//app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
+//    var argumentsAmount = arguments.length,
+//        self = this;
+//    $('.test').on('click', function () {
+//        var $wrapper = $('.calendar-wrapper'),
+//            $days = $wrapper.find('.pn-calendar-day'),
+//            min = $wrapper.find("[data-date ='" + minDate + "']");
+//        if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
+//            console.log('data span', self.dateSpanCollection);
+//            min.removeClass('pn-calendar-selected');
+//            self.isElementInDateSpanCollection(minDate);
+//        } else {
+//            $days.each(function () {
+//                if ($(this).attr('data-date')) {
+//                    $(this).filter(function () {
+//                        if ($(this).attr('data-date') >= minDate && $(this).attr('data-date') <= maxDate) {
+//                            $(this).removeClass('pn-calendar-selected');
+//                        }
+//                    });
+//                    //self.selectedDates.splice($.inArray($(this).attr('data-date'), self.selectedDates), 1)
+//                }
+//            })
+//        }
+//        self.collectSelectedDates();
+//    })
+//};
+//
+//app.Calendar.prototype.dawajModala = function () {
+//    $('.test').on('click', function () {
+//        $('.data-picker').fadeToggle('fast');
+//    });
+//};
 
