@@ -187,22 +187,21 @@ table tbody tr:last-child td:last-child {
 .data-picker {
     display: none;
     border: 1px solid silver;
-    width: 91px;
-    height: 62px;
-    font-size: 11px;
     position: absolute;
     -webkit-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
     -moz-box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
     box-shadow: 3px 3px 37px -9px rgba(0, 0, 0, 0.65);
+    background: white;
 }
 .data-picker-header {
     border-bottom: 1px solid black;
 }
 .data-picker-option {
-    font-size: 11px;
+    font-size: 13px;
     color: #262a37;
     position: relative;
     margin-top: 3px;
+    padding: 2px 5px;
 }
 
 .data-picker-option:hover{
@@ -210,7 +209,6 @@ table tbody tr:last-child td:last-child {
     opacity: 0.5;
     color: white;
     cursor: pointer;
-    font-weight: 800;
 }
 .data-picker-day ,.data-picker-period{
     margin-right: 5px;

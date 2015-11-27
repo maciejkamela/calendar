@@ -1,6 +1,8 @@
 'use strict';
 var app = app || {};
 app.Calendar = function (onDateSelect, $calendarContainer, monthNames, dayNames, counter) {
+
+    var self = this;
     this.$calendarContainer = $calendarContainer;
 
     this.monthName = monthNames;
@@ -17,7 +19,13 @@ app.Calendar = function (onDateSelect, $calendarContainer, monthNames, dayNames,
     this.lastlyChosenDataPickerOption = [];
     this.getDaysInMonth = function (month, year) {
         return new Date(year, month, 0).getDate();
-    }
+    };
+
+    $(document).click(function (e) {
+      if (!$(e.target).hasClass('pn-calendar-day') && e.target !== self.$datePicker[0] && !$(e.target).parents('.data-picker').length) {
+          self.$datePicker.hide();
+      }
+    });
 };
 
 app.Calendar.prototype.createCalendars = function () {
@@ -274,12 +282,19 @@ app.Calendar.prototype.eliminateDuplicates = function (arr) {
 
 app.Calendar.prototype.pickDate = function (element) {
     var self = this;
-    element.find('.pn-calendar-day').on('click', function () {
-        console.log($(this).attr('data-date'), $(this));
+    element.find('.pn-calendar-day').on('click', function (e) {
+
+
+        var scrollLeft = (document.documentElement && document.documentElement.scrollLeft)  || document.body.scrollLeft,
+          scrollTop  = (document.documentElement && document.documentElement.scrollTop)  || document.body.scrollTop,
+          margin = 5;
+
+
+
         var chosenDay = $(this).attr('data-date');
         self.timeDuration.push(chosenDay);
         if (self.lastlyChosenDataPickerOption.length === 0) {
-            $('.data-picker').fadeIn('fast');
+          self.$datePicker.css({left: e.clientX + scrollLeft + margin, top: e.clientY + scrollTop + margin}).show();
         }
         else if(self.lastlyChosenDataPickerOption[0] === 'Period') {
             if (self.timeDuration.length === 2) {
@@ -342,15 +357,15 @@ app.Calendar.prototype.dataPickerPeriodClick = function () {
 
 app.Calendar.prototype.createDataPicker = function () {
     var $dataPicker = $('<div>').addClass('data-picker'),
-        $dataPickerHeader = $('<div>').addClass('data-picker-header').text('Chose one option.'),
-        $dataPickerDayOption = $('<div>').addClass('data-picker-option day-option'),
-        $dataPickerDay = $('<i>').addClass('fa fa-calendar-check-o data-picker-day').text('Day'),
-        $dataPickerPeriodOption = $('<div>').addClass('data-picker-option period-option'),
-        $dataPickerPeriod = $('<i>').addClass('fa fa-calendar-times-o data-picker-period').text('Period');
-    $dataPickerDayOption.append($dataPickerDay);
-    $dataPickerPeriodOption.append($dataPickerPeriod);
-    $dataPicker.append($dataPickerHeader, $dataPickerDayOption, $dataPickerPeriodOption);
-    $('body').append($dataPicker);
+        $dataPickerDayOption = $('<div>').addClass('data-picker-option day-option').text('Dzień'),
+        $dataPickerDay = $('<i>').addClass('fa fa-calendar-check-o data-picker-day'),
+        $dataPickerPeriodOption = $('<div>').addClass('data-picker-option period-option').text('Przedział'),
+        $dataPickerPeriod = $('<i>').addClass('fa fa-calendar-times-o data-picker-period');
+    $dataPickerDayOption.prepend($dataPickerDay);
+    $dataPickerPeriodOption.prepend($dataPickerPeriod);
+    $dataPicker.append($dataPickerDayOption, $dataPickerPeriodOption);
+    this.$calendarContainer.append($dataPicker);
+    this.$datePicker = $dataPicker;
 };
 
 
