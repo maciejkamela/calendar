@@ -10,9 +10,11 @@ app.mainView = (function () {
             () {
             var calendar = new app.Calendar(function (choseDay) {
                 console.log(choseDay)
-            },this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName, this.calendarSettings.counter);
+            },function (failedPeriod) {
+                console.log('wyjebawszy',failedPeriod)
+            },this.calendarSettings.$calendarContainer, this.calendarSettings.monthName, this.calendarSettings.dayName);
             calendar.createCalendars(this.calendarSettings.rows, this.calendarSettings.columns
-                ,this.calendarSettings.dayName, this.calendarSettings.counter
+                ,this.calendarSettings.dayName
             );
 
         },
@@ -21,9 +23,7 @@ app.mainView = (function () {
             rows: 5,
             columns: 7,
             dayName: ['pon','wt','sr', 'czw','pt', 'sob', 'nd'],
-            monthName: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień','Wrzesień', 'Październik', 'Listopad','Grudzień'],
-            counter: 0
-
+            monthName: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień','Wrzesień', 'Październik', 'Listopad','Grudzień']
         }
     };
 }());
