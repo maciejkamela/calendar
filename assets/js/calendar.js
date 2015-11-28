@@ -261,8 +261,8 @@ app.Calendar.prototype.pickDate = function (element) {
             self.$datePicker.css({left: e.clientX + scrollLeft + margin, top: e.clientY + scrollTop + margin}).show();
         }
         else if (self.lastlyChosenDataPickerOption[0] === 'Period') {
-            if (self.timeDuration.length === 2) {
-                var selectedDay = self.timeDuration;
+            if (self.timeDuration.length >= 2) {
+                var selectedDay = self.timeDuration.splice(2);
                 self.addItemToDateSpanCollection();
                 self.timeDuration.sort();
                 self.markSelectedDates();
@@ -305,7 +305,7 @@ app.Calendar.prototype.dataPickerDayClick = function () {
 app.Calendar.prototype.dataPickerPeriodClick = function () {
     var self = this;
     $('.period-option').on('click', function () {
-        var selectedDay = self.timeDuration;
+        var selectedDay = self.timeDuration[0];
         $('.calendar-wrapper').find("[data-date ='" + selectedDay + "']").addClass('pn-calendar-selected');
         self.handler(event);
         $('.data-picker').fadeOut('fast');
