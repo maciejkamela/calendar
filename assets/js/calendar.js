@@ -256,7 +256,7 @@ app.Calendar.prototype.pickDate = function (element) {
             margin = 5;
 
         var chosenDay = $(this).attr('data-date');
-        self.timeDuration.push(chosenDay);
+        self.timeDuration.unshift(chosenDay);
         if (self.lastlyChosenDataPickerOption.length === 0) {
             self.$datePicker.css({left: e.clientX + scrollLeft + margin, top: e.clientY + scrollTop + margin}).show();
         }
@@ -291,7 +291,7 @@ app.Calendar.prototype.handler = function (event) {
 app.Calendar.prototype.dataPickerDayClick = function () {
     var self = this;
     $('.day-option').on('click', function () {
-        var selectedDay = self.timeDuration;
+        var selectedDay = self.timeDuration[0];
         $('.calendar-wrapper').find("[data-date ='" + selectedDay + "']").addClass('pn-calendar-selected');
         $('.data-picker').fadeOut('fast');
         self.timeDuration = [];
