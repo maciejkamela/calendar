@@ -10,7 +10,7 @@ app.Calendar = function (onDateSelect, onError, $calendarContainer, monthNames, 
     this.onError = onError;
     this.DAYS = 7;
     this.MONTHS = 12;
-    this.ROWS = 5;
+    this.ROWS = 6;
     this.currentYear = new Date().getFullYear();
     this.dayInit = 1;
     this.timeDuration = [];
@@ -129,14 +129,14 @@ app.Calendar.prototype.createArrows = function ($container) {
     }
 
     leftArrow.on('click', function () {
-            var refreshedDates = self.collectSelectedDates();
-            self.currentYear--;
-            self.$calendarContainer.empty();
-            self.createCalendars();
-            for (var i = 0; i < refreshedDates.length; i++) {
-                $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
-            }
-            self.markSelectedDates();
+        var refreshedDates = self.collectSelectedDates();
+        self.currentYear--;
+        self.$calendarContainer.empty();
+        self.createCalendars();
+        for (var i = 0; i < refreshedDates.length; i++) {
+            $('.calendar-wrapper').find("[data-date ='" + refreshedDates[i] + "']").addClass('pn-calendar-selected');
+        }
+        self.markSelectedDates();
     });
     rightArrow.on('click', function () {
         var refreshedDates = self.collectSelectedDates();
@@ -197,29 +197,27 @@ app.Calendar.prototype.markPastDays = function (element) {
 };
 
 app.Calendar.prototype.markSelectedDates = function () {
-    var selectedDates = this.timeDuration,
-        $days = $('.calendar-wrapper').find('.pn-calendar-day');
+    var selectedDates = this.timeDuration;
+    var $days = $('.calendar-wrapper').find('.pn-calendar-day');
     $days.each(function () {
         if ($(this).attr('data-date')) {
             $(this).filter(function () {
-                if ($(this).hasClass('pn-calendar-selected') && $(this).attr('data-date') != selectedDates[0]) {
-                    if (typeof self.onError === 'function') {
-                    //console.error('ten element jest zaznaczony', $(this), self.timeDuration);
-                        return self.onError(selectedDates);
-                    }
-                    return;
-                } else {
-                    if ($(this).attr('data-date') >= selectedDates[0] && $(this).attr('data-date') <= selectedDates[1]) {
-                        $(this).addClass('pn-calendar-selected');
-                    }
-                    else if ($(this).attr('data-date') === selectedDates[0]) {
-                        $(this).addClass('pn-calendar-selected');
-                    }
+                if ($(this).attr('data-date') >= selectedDates[0] && $(this).attr('data-date') <= selectedDates[1]) {
+                    $(this).addClass('pn-calendar-selected');
+                }
+                else if ($(this).attr('data-date') === selectedDates[0]) {
+                    $(this).addClass('pn-calendar-selected');
                 }
             });
         }
     });
 };
+
+app.Calendar.prototype.clearAllSelectedDates = function () {
+    var $days = $('.calendar-wrapper').find('.pn-calendar-day');
+    $days.removeClass('pn-calendar-selected');
+};
+
 app.Calendar.prototype.addItemToDateSpanCollection = function () {
     var timeDuration = this.timeDuration;
     this.dateSpanCollection.push({'minDate': timeDuration[0], 'maxDate': timeDuration[1]});
