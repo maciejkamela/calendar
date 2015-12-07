@@ -55,7 +55,6 @@ app.Calendar.prototype.appendDaysHeaders = function ($container) {
     }
 };
 
-
 app.Calendar.prototype.appendDays = function ($container, monthIndex) {
     for (var i = 0; i < this.ROWS; i++) {
         var $row = $("<tr/>"),
@@ -186,7 +185,7 @@ app.Calendar.prototype.setDataDateAttribute = function (element, year, month, da
 app.Calendar.prototype.markPastDays = function (element) {
     var $days = element.find('.pn-calendar-day'),
         currentDate = this.getCurrentDate(),
-        formattedDate = currentDate.currentYear + '-' + (currentDate.currentMonth + 1) + '-' + currentDate.currentDay;
+        formattedDate = currentDate.currentYear + '-' + (currentDate.currentMonth + 1) + '-' + this.addLeadingZero(currentDate.currentDay);
     $days.each(function () {
         if ($(this).attr('data-date')) {
             if ($(this).attr('data-date') < formattedDate) {
@@ -194,6 +193,9 @@ app.Calendar.prototype.markPastDays = function (element) {
             }
         }
     })
+};
+app.Calendar.prototype.addLeadingZero = function (i) {
+    return (i < 10) ? '0' + i : i;
 };
 
 app.Calendar.prototype.markSelectedDates = function () {
