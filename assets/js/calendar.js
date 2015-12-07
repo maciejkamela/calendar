@@ -27,11 +27,12 @@ app.Calendar = function (onDateSelect, onError, $calendarContainer, monthNames, 
         }
     });
 };
-
+/**
+ *  Creating whole calendar
+ */
 app.Calendar.prototype.createCalendars = function () {
     var $clear = $('<div>').addClass('clear'),
         $calendarWrapper = $('<div>').addClass('calendar-wrapper row');
-
     for (var i = 0; i < this.MONTHS; i++) {
         var li = $('<div>').addClass('col-xs-12 col-sm-6 col-md-3 calendar-item');
         var $table = this.createTable(i);
@@ -45,7 +46,9 @@ app.Calendar.prototype.createCalendars = function () {
     this.dataPickerDayClick();
     this.dataPickerPeriodClick();
 };
-
+/**
+ * Creating the weeks
+ */
 app.Calendar.prototype.appendDaysHeaders = function ($container) {
     var $td;
     for (var i = 0; i < this.DAYS; i++) {
@@ -54,7 +57,11 @@ app.Calendar.prototype.appendDaysHeaders = function ($container) {
         $container.append($td);
     }
 };
-
+/**
+ * Appending days to the calendar
+ * @param $container
+ * @param monthIndex
+ */
 app.Calendar.prototype.appendDays = function ($container, monthIndex) {
     for (var i = 0; i < this.ROWS; i++) {
         var $row = $("<tr/>"),
@@ -64,7 +71,11 @@ app.Calendar.prototype.appendDays = function ($container, monthIndex) {
     }
     this.dayInit = 1;
 };
-
+/**
+ * Calculating first day of the month
+ * @param monthIndex
+ * @returns {number}
+ */
 app.Calendar.prototype.firstDayInMonth = function (monthIndex) {
     var newDate = new Date(this.currentYear, monthIndex, 1),
         firstDay = newDate.getDay();
@@ -75,7 +86,13 @@ app.Calendar.prototype.firstDayInMonth = function (monthIndex) {
     }
     return firstDay;
 };
-
+/**
+ * Filling in calendars with proper days
+ * @param $container
+ * @param monthIndex
+ * @param firstDay
+ * @param rowIndex
+ */
 app.Calendar.prototype.createDays = function ($container, monthIndex, firstDay, rowIndex) {
     var daysInMonth = this.getDaysInMonth(monthIndex + 1, this.currentYear),
         $cell = '',
@@ -100,7 +117,11 @@ app.Calendar.prototype.createDays = function ($container, monthIndex, firstDay, 
         $container.append($cell);
     }
 };
-
+/**
+ * Creating table for storing calendar
+ * @param monthIndex
+ * @returns {*|jQuery}
+ */
 app.Calendar.prototype.createTable = function (monthIndex) {
     var $tableHead = $("<thead>"),
         $calendarHeader = $("<tr>").addClass('pn-calendar-header'),
@@ -116,6 +137,10 @@ app.Calendar.prototype.createTable = function (monthIndex) {
     return $table;
 };
 
+/**
+ * Creating switch-year arrows and appending navigation actions
+ * @param $container
+ */
 app.Calendar.prototype.createArrows = function ($container) {
     var self = this,
         leftArrow = $('<div>').addClass('glyphicon glyphicon-chevron-left calendar-nav-left-arrow'),
@@ -148,7 +173,10 @@ app.Calendar.prototype.createArrows = function ($container) {
         self.markSelectedDates();
     });
 };
-
+/**
+ * Creating year header which indicates displayed year
+ * @returns {*|jQuery}
+ */
 app.Calendar.prototype.createCurrentYearHeader = function () {
     var $calendarHeader = $('<div>').addClass('calendar-controls'),
         currentYear = $('<div>').addClass('current-year-header').text(this.currentYear);
@@ -156,6 +184,10 @@ app.Calendar.prototype.createCurrentYearHeader = function () {
     $calendarHeader.append(currentYear);
     return $calendarHeader;
 };
+/**
+ * Calculate current date
+ * @returns {{currentYear: number, currentMonth: number, currentDay: number}}
+ */
 app.Calendar.prototype.getCurrentDate = function () {
     var currentDate = new Date(),
         currentYear = currentDate.getFullYear(),
@@ -167,7 +199,14 @@ app.Calendar.prototype.getCurrentDate = function () {
         currentDay: currentDay
     }
 };
-
+/**
+ * Setting data-date attribute
+ * @param element
+ * @param year
+ * @param month
+ * @param day
+ * @returns {*}
+ */
 app.Calendar.prototype.setDataDateAttribute = function (element, year, month, day) {
     if (day < 10 && month >= 10) {
         day = '0' + day;
@@ -181,7 +220,10 @@ app.Calendar.prototype.setDataDateAttribute = function (element, year, month, da
     }
     return element.attr('data-date', year + '-' + month + '-' + day);
 };
-
+/**
+ * Mark days older than current date
+ * @param element
+ */
 app.Calendar.prototype.markPastDays = function (element) {
     var $days = element.find('.pn-calendar-day'),
         currentDate = this.getCurrentDate(),
@@ -194,10 +236,18 @@ app.Calendar.prototype.markPastDays = function (element) {
         }
     })
 };
+
+/**
+ * Adding leading zero to days lower than 10
+ * @param i
+ * @returns {*}
+ */
 app.Calendar.prototype.addLeadingZero = function (i) {
     return (i < 10) ? '0' + i : i;
 };
-
+/**
+ * Marking selected dates
+ */
 app.Calendar.prototype.markSelectedDates = function () {
     var selectedDates = this.timeDuration;
     var $days = $('.calendar-wrapper').find('.pn-calendar-day');
@@ -214,18 +264,18 @@ app.Calendar.prototype.markSelectedDates = function () {
         }
     });
 };
-
-app.Calendar.prototype.clearAllSelectedDates = function () {
-    var $days = $('.calendar-wrapper').find('.pn-calendar-day');
-    $days.removeClass('pn-calendar-selected');
-};
-
+/**
+ * Storing all selected periods
+ */
 app.Calendar.prototype.addItemToDateSpanCollection = function () {
     var timeDuration = this.timeDuration;
     this.dateSpanCollection.push({'minDate': timeDuration[0], 'maxDate': timeDuration[1]});
 
 };
-
+/**
+ * Collecting selected dates - needed for switching among years and updating view
+ * @returns {Array|*}
+ */
 app.Calendar.prototype.collectSelectedDates = function () {
     var $days = $('.calendar-wrapper').find('.pn-calendar-selected'),
         self = this;
@@ -235,7 +285,11 @@ app.Calendar.prototype.collectSelectedDates = function () {
     this.selectedDates = this.eliminateDuplicates(this.selectedDates);
     return this.selectedDates;
 };
-
+/**
+ * Eliminate chosen dates duplicates
+ * @param arr
+ * @returns {Array}
+ */
 app.Calendar.prototype.eliminateDuplicates = function (arr) {
     var i,
         itemsAmount = arr.length,
@@ -246,11 +300,13 @@ app.Calendar.prototype.eliminateDuplicates = function (arr) {
     }
     return uniqueItems;
 };
-
+/**
+ * Pick and mark selected day|period and display date-picker
+ * @param element
+ */
 app.Calendar.prototype.pickDate = function (element) {
     var self = this;
     element.find('.pn-calendar-day').on('click', function (e) {
-
         var scrollLeft = (document.documentElement && document.documentElement.scrollLeft) || document.body.scrollLeft,
             scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop,
             margin = 5;
@@ -275,6 +331,10 @@ app.Calendar.prototype.pickDate = function (element) {
         }
     })
 };
+/**
+ * Validate which option was chosen from date-picker and store this information
+ * @param event
+ */
 app.Calendar.prototype.handler = function (event) {
     var target = $(event.currentTarget);
     if (target.is('div.data-picker-option.day-option')) {
@@ -283,11 +343,11 @@ app.Calendar.prototype.handler = function (event) {
     else if (target.is('div.data-picker-option.period-option')) {
         this.lastlyChosenDataPickerOption.push('Period');
     }
-    else {
-        console.log('dooopa');
-    }
 };
-
+/**
+ * Mark selected day after choosing day from date-picker
+ * @return callback with selected day
+ */
 app.Calendar.prototype.dataPickerDayClick = function () {
     var self = this;
     $('.day-option').on('click', function () {
@@ -301,7 +361,9 @@ app.Calendar.prototype.dataPickerDayClick = function () {
         }
     })
 };
-
+/**
+ * Mark selected day after choosing period from date-picker and store this information in timeDuration
+ */
 app.Calendar.prototype.dataPickerPeriodClick = function () {
     var self = this;
     $('.period-option').on('click', function () {
@@ -311,7 +373,9 @@ app.Calendar.prototype.dataPickerPeriodClick = function () {
         $('.data-picker').fadeOut('fast');
     })
 };
-
+/**
+ * Create date-picker
+ */
 app.Calendar.prototype.createDataPicker = function () {
     var $dataPicker = $('<div>').addClass('data-picker'),
         $dataPickerDayOption = $('<div>').addClass('data-picker-option day-option').text('Dzień'),
@@ -324,46 +388,3 @@ app.Calendar.prototype.createDataPicker = function () {
     this.$calendarContainer.append($dataPicker);
     this.$datePicker = $dataPicker;
 };
-
-
-//app.Calendar.prototype.isElementInDateSpanCollection = function (element) {
-//    for (var i = 0; i < this.dateSpanCollection.length; i++) {
-//        if (element >= this.dateSpanCollection[i].minDate && element <= this.dateSpanCollection[i].maxDate) {
-//            console.log(element);
-//        }
-//    }
-//};
-//
-//app.Calendar.prototype.eraseSelectedDates = function (minDate, maxDate) {
-//    var argumentsAmount = arguments.length,
-//        self = this;
-//    $('.test').on('click', function () {
-//        var $wrapper = $('.calendar-wrapper'),
-//            $days = $wrapper.find('.pn-calendar-day'),
-//            min = $wrapper.find("[data-date ='" + minDate + "']");
-//        if (min.hasClass('pn-calendar-selected') && argumentsAmount === 1) {
-//            console.log('data span', self.dateSpanCollection);
-//            min.removeClass('pn-calendar-selected');
-//            self.isElementInDateSpanCollection(minDate);
-//        } else {
-//            $days.each(function () {
-//                if ($(this).attr('data-date')) {
-//                    $(this).filter(function () {
-//                        if ($(this).attr('data-date') >= minDate && $(this).attr('data-date') <= maxDate) {
-//                            $(this).removeClass('pn-calendar-selected');
-//                        }
-//                    });
-//                    //self.selectedDates.splice($.inArray($(this).attr('data-date'), self.selectedDates), 1)
-//                }
-//            })
-//        }
-//        self.collectSelectedDates();
-//    })
-//};
-//
-//app.Calendar.prototype.dawajModala = function () {
-//    $('.test').on('click', function () {
-//        $('.data-picker').fadeToggle('fast');
-//    });
-//};
-
