@@ -135,9 +135,11 @@ table tbody tr:last-child td:last-child {
 
 .calendar-nav-left-arrow:hover {
     opacity: 1;
+    cursor: pointer;
 }
 .calendar-nav-right-arrow:hover {
     opacity:1;
+    cursor: pointer;
 }
 .blocked-arrow:hover {
     opacity: 0.3;
