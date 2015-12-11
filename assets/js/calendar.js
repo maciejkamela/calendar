@@ -366,7 +366,7 @@ app.Calendar.prototype.dataPickerDayClick = function () {
  */
 app.Calendar.prototype.dataPickerPeriodClick = function () {
     var self = this;
-    $('.period-option').on('click', function () {
+    $('.period-option').on('click', function (event) {
         var selectedDay = self.timeDuration[0];
         $('.calendar-wrapper').find("[data-date ='" + selectedDay + "']").addClass('pn-calendar-selected');
         self.handler(event);
