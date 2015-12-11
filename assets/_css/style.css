@@ -125,7 +125,18 @@ table tbody tr:last-child td:last-child {
 
     color: white;
 }
+.pn-calendar-day[data-date]:hover {
+    background: #d1133a; /* Old browsers */
+    background: -moz-linear-gradient(top, #d1133a 0%, #e71743 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d1133a), color-stop(100%, #e71743)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #d1133a 0%, #e71743 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #d1133a 0%, #e71743 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #d1133a 0%, #e71743 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #d1133a 0%, #e71743 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1133a', endColorstr='#e71743', GradientType=0); /* IE6-9 */
 
+    color: white;
+}
 .clearfix {
     display: inline-block;
 }
@@ -135,9 +146,11 @@ table tbody tr:last-child td:last-child {
 
 .calendar-nav-left-arrow:hover {
     opacity: 1;
+    cursor: pointer;
 }
 .calendar-nav-right-arrow:hover {
     opacity:1;
+    cursor: pointer;
 }
 .blocked-arrow:hover {
     opacity: 0.3;
