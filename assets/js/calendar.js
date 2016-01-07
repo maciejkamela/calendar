@@ -227,7 +227,7 @@ app.Calendar.prototype.setDataDateAttribute = function (element, year, month, da
 app.Calendar.prototype.markPastDays = function (element) {
     var $days = element.find('.pn-calendar-day'),
         currentDate = this.getCurrentDate(),
-        formattedDate = currentDate.currentYear + '-' + (currentDate.currentMonth + 1) + '-' + this.addLeadingZero(currentDate.currentDay);
+        formattedDate = currentDate.currentYear + '-' + this.addLeadingZero(currentDate.currentMonth + 1) + '-' + this.addLeadingZero(currentDate.currentDay);
     $days.each(function () {
         if ($(this).attr('data-date')) {
             if ($(this).attr('data-date') < formattedDate) {
